@@ -3,8 +3,8 @@ name: Schedule Spring Services
 on:
   schedule:
     # The cron syntax is based on UTC time, so we adjust accordingly for IST
-    - cron: '30 4 * * *'   # This runs at 4:30 AM IST every day
-    - cron: '43 12 * * *'   # This runs at 12:30 PM IST every day
+    - cron: '15 18 * * *'   # This runs at 4:30 AM IST every day
+    - cron: '40 4 * * *'   # This runs at 12:30 PM IST every day
 
 jobs:
   stop_services:
