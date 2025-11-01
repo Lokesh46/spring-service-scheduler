@@ -1,10 +1,12 @@
 name: Schedule Spring Services
 
 on:
+  push:
+    branches:
+      - main  # Trigger on commits to the 'main' branch (change this if you're using a different branch)
   schedule:
-    # The cron syntax is based on UTC time, so we adjust accordingly for IST
-    - cron: '46 17 * * *'   # This runs at 4:30 AM IST every day
-    - cron: '40 4 * * *'   # This runs at 12:30 PM IST every day
+    - cron: '48 17 * * *'   # This runs at 10:00 PM IST (4:30 PM UTC) every day
+    - cron: '30 4 * * *'     # This runs at 10:00 AM IST (4:30 AM UTC) every day
 
 jobs:
   stop_services:
