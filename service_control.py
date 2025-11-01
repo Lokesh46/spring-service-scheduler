@@ -1,11 +1,10 @@
+import os
 import requests
 
-# Your Render API token
-API_TOKEN = 'your-render-api-token'
-
-# Service IDs for your Spring backend services
-SERVICE_ID_1 = 'your-service-id-1'
-SERVICE_ID_2 = 'your-service-id-2'
+# Retrieve the secrets from environment variables
+API_TOKEN = os.getenv('RENDER_API_TOKEN')  # Fetch API token from secrets
+SERVICE_ID_1 = os.getenv('SERVICE_ID_1')  # Fetch first service ID from secrets
+SERVICE_ID_2 = os.getenv('SERVICE_ID_2')  # Fetch second service ID from secrets
 
 # Base URL for Render API
 BASE_URL = "https://api.render.com/v1/services"
