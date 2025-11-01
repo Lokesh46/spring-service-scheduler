@@ -1,56 +1,53 @@
-import os
+import sys
 import requests
+import os
 
-# Retrieve the secrets from environment variables
-API_TOKEN = os.getenv('RENDER_API_TOKEN')  # Fetch API token from secrets
-SERVICE_ID_1 = os.getenv('SERVICE_ID_1')  # Fetch first service ID from secrets
-SERVICE_ID_2 = os.getenv('SERVICE_ID_2')  # Fetch second service ID from secrets
+RENDER_API_TOKEN = os.getenv("RENDER_API_TOKEN")
+SERVICE_ID_1 = os.getenv("SERVICE_ID_1")
+SERVICE_ID_2 = os.getenv("SERVICE_ID_2")
 
-# Base URL for Render API
-BASE_URL = "https://api.render.com/v1/services"
-
-# Headers to pass the API Token for authorization
-headers = {
-    'Authorization': f'Bearer {API_TOKEN}',
-    'Content-Type': 'application/json'
-}
-
-# Function to stop a service
 def stop_service(service_id):
-    url = f"{BASE_URL}/{service_id}/stop"
-    response = requests.post(url, headers=headers)
-    if response.status_code == 200:
-        print(f"Service {service_id} stopped successfully.")
-    else:
-        print(f"Failed to stop service {service_id}. Response: {response.text}")
+    url = f"https://api.render.com/v1/services/{service_id}/stop"
+    headers = {
+        "Authorization": f"Bearer {RENDER_API_TOKEN}",
+    }
+    try:
+        response = requests.post(url, headers=headers)
+        response.raise_for_status()  # Raise an error if the request fails
+        print(f"Service {service_id} stopped successfully")
+    except requests.exceptions.RequestException as e:
+        print(f"Error stopping service {service_id}: {e}")
+        return False
+    return True
 
-# Function to start a service
 def start_service(service_id):
-    url = f"{BASE_URL}/{service_id}/start"
-    response = requests.post(url, headers=headers)
-    if response.status_code == 200:
-        print(f"Service {service_id} started successfully.")
-    else:
-        print(f"Failed to start service {service_id}. Response: {response.text}")
+    url = f"https://api.render.com/v1/services/{service_id}/start"
+    headers = {
+        "Authorization": f"Bearer {RENDER_API_TOKEN}",
+    }
+    try:
+        response = requests.post(url, headers=headers)
+        response.raise_for_status()  # Raise an error if the request fails
+        print(f"Service {service_id} started successfully")
+    except requests.exceptions.RequestException as e:
+        print(f"Error starting service {service_id}: {e}")
+        return False
+    return True
 
-# Stop both services
-def stop_services():
-    print("Stopping services...")
-    stop_service(SERVICE_ID_1)
-    stop_service(SERVICE_ID_2)
-
-# Start both services
-def start_services():
-    print("Starting services...")
-    start_service(SERVICE_ID_1)
-    start_service(SERVICE_ID_2)
-
-# Main function to decide what to do
 if __name__ == "__main__":
-    action = input("Enter 'stop' to stop services or 'start' to start services: ").strip().lower()
-    if action == 'stop':
-        stop_services()
-    elif action == 'start':
-        start_services()
+    # Ensure that the action ('start' or 'stop') is passed as a command-line argument
+    if len(sys.argv) < 2:
+        print("Please provide 'start' or 'stop' as an argument.")
+        sys.exit(1)
+
+    action = sys.argv[1].lower()  # Get the first argument passed to the script
+
+    if action == "stop":
+        stop_service(SERVICE_ID_1)
+        stop_service(SERVICE_ID_2)
+    elif action == "start":
+        start_service(SERVICE_ID_1)
+        start_service(SERVICE_ID_2)
     else:
-        print("Invalid input! Please enter either 'stop' or 'start'.")
+        print("Invalid action. Please use 'start' or 'stop'.")
+        sys.exit(1)
