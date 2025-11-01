@@ -1,12 +1,12 @@
 name: Schedule Spring Services
 
 on:
+  schedule:
+    - cron: '50 17 * * *'   # This runs at 10:00 PM IST (4:30 PM UTC) every day
+    - cron: '30 4 * * *'     # This runs at 10:00 AM IST (4:30 AM UTC) every day
   push:
     branches:
       - main  # Trigger on commits to the 'main' branch (change this if you're using a different branch)
-  schedule:
-    - cron: '48 17 * * *'   # This runs at 10:00 PM IST (4:30 PM UTC) every day
-    - cron: '30 4 * * *'     # This runs at 10:00 AM IST (4:30 AM UTC) every day
 
 jobs:
   stop_services:
@@ -25,10 +25,10 @@ jobs:
         
       - name: Run script to stop services
         env:
-          RENDER_API_TOKEN: ${{ secrets.RENDER_API_TOKEN }}  # Use secret for API token
-          SERVICE_ID_1: ${{ secrets.SERVICE_ID_1 }}        # Use secret for Service ID 1
-          SERVICE_ID_2: ${{ secrets.SERVICE_ID_2 }}        # Use secret for Service ID 2
-        run: python service_control.py stop
+          RENDER_API_TOKEN: ${{ secrets.RENDER_API_TOKEN }}
+          SERVICE_ID_1: ${{ secrets.SERVICE_ID_1 }}
+          SERVICE_ID_2: ${{ secrets.SERVICE_ID_2 }}
+        run: python service_control.py stop  # Pass 'stop' as argument
 
   start_services:
     runs-on: ubuntu-latest
@@ -46,7 +46,7 @@ jobs:
         
       - name: Run script to start services
         env:
-          RENDER_API_TOKEN: ${{ secrets.RENDER_API_TOKEN }}  # Use secret for API token
-          SERVICE_ID_1: ${{ secrets.SERVICE_ID_1 }}        # Use secret for Service ID 1
-          SERVICE_ID_2: ${{ secrets.SERVICE_ID_2 }}        # Use secret for Service ID 2
-        run: python service_control.py start
+          RENDER_API_TOKEN: ${{ secrets.RENDER_API_TOKEN }}
+          SERVICE_ID_1: ${{ secrets.SERVICE_ID_1 }}
+          SERVICE_ID_2: ${{ secrets.SERVICE_ID_2 }}
+        run: python service_control.py start  # Pass 'start' as argument
