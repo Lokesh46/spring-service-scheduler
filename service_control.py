@@ -7,7 +7,7 @@ SERVICE_ID_1 = os.getenv("SERVICE_ID_1")
 SERVICE_ID_2 = os.getenv("SERVICE_ID_2")
 
 def stop_service(service_id):
-    url = f"https://api.render.com/v1/services/{service_id}/stop"
+    url = f"https://api.render.com/v1/services/{service_id}/suspend"
     headers = {
         "Authorization": f"Bearer {RENDER_API_TOKEN}",
     }
@@ -21,7 +21,7 @@ def stop_service(service_id):
     return True
 
 def start_service(service_id):
-    url = f"https://api.render.com/v1/services/{service_id}/start"
+    url = f"https://api.render.com/v1/services/{service_id}/resume"
     headers = {
         "Authorization": f"Bearer {RENDER_API_TOKEN}",
     }
