@@ -1,0 +1,32 @@
+name: Schedule Spring Services
+
+on:
+  schedule:
+    - cron: '30 17 * * *'   # This runs at 10:00 PM IST (4:30 PM UTC) every day
+  push:
+    branches:
+      - main  # Trigger on commits to the 'main' branch (change this if you're using a different branch)
+
+jobs:
+  stop_services:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+        
+      - name: Install requests
+        run: pip install requests
+        
+      - name: Run script to stop services
+        env:
+          RENDER_API_TOKEN: ${{ secrets.RENDER_API_TOKEN }}
+          SERVICE_ID_1: ${{ secrets.SERVICE_ID_1 }}
+          SERVICE_ID_2: ${{ secrets.SERVICE_ID_2 }}
+        run: python service_control.py stop  # Pass 'stop' as argument
+
+  
