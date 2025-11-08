@@ -1,4 +1,4 @@
-name: Schedule Spring Services
+name: Stop Services
 
 on:
   schedule:
