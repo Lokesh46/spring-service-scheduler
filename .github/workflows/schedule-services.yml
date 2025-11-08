@@ -1,4 +1,4 @@
-name: Schedule Spring Services
+name: Start Services
 
 on:
   schedule:
